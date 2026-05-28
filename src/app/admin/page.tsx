@@ -220,48 +220,6 @@ export default function AdminDashboard() {
           </Card>
         </div>
 
-        {/* Judges Status */}
-        <Card className="mb-8 border-0 shadow-lg">
-          <CardHeader>
-            <CardTitle>Judges Status</CardTitle>
-            <CardDescription>Overview of judge participation</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="grid md:grid-cols-7 gap-4">
-              {judges.map((judge) => {
-                const judgeScores = categories.reduce(
-                  (acc, c) =>
-                    acc +
-                    c.nominees.reduce(
-                      (a, n) => a + n.scores.filter((s) => s.judgeId === judge.id).length,
-                      0
-                    ),
-                  0
-                );
-                const progress = (judgeScores / totalNominees) * 100;
-
-                return (
-                  <div key={judge.id} className="text-center p-4 bg-gray-50 rounded-lg">
-                    <p className="font-semibold text-gray-900">{judge.code}</p>
-                    <p className="text-xs text-gray-500 truncate">{judge.name || "Not logged in"}</p>
-                    <div className="mt-2 h-2 bg-gray-200 rounded-full overflow-hidden">
-                      <div
-                        className={`h-full rounded-full ${
-                          progress === 100 ? "bg-green-500" : "bg-blue-500"
-                        }`}
-                        style={{ width: `${progress}%` }}
-                      />
-                    </div>
-                    <p className="text-xs text-gray-600 mt-1">
-                      {judgeScores}/{totalNominees}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
-          </CardContent>
-        </Card>
-
         {/* Results by Category */}
         <Card className="border-0 shadow-lg">
           <CardHeader>

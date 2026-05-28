@@ -30,6 +30,7 @@ interface NomineeWithCategory {
 }
 
 const ratingLabels: Record<number, string> = {
+  0: "Not Rated",
   1: "Poor",
   2: "Needs Improvement",
   3: "Satisfactory",
@@ -68,7 +69,7 @@ export default function ScorePage({ params }: { params: Promise<{ id: string }> 
         
         const initialRatings: Record<string, number> = {};
         criteria.forEach((c: Criterion) => {
-          initialRatings[c.name] = existingScore?.ratings?.[c.name] || 3;
+          initialRatings[c.name] = existingScore?.ratings?.[c.name] ?? 0;
         });
         setRatings(initialRatings);
         setLoading(false);
@@ -209,22 +210,23 @@ export default function ScorePage({ params }: { params: Promise<{ id: string }> 
                 </div>
                 <div className="space-y-3">
                   <Slider
-                    value={[ratings[criterion.name] || 3]}
+                    value={[ratings[criterion.name] ?? 0]}
                     onValueChange={(value) => {
                       const val = Array.isArray(value) ? value[0] : value;
                       setRatings((prev) => ({ ...prev, [criterion.name]: val }));
                     }}
-                    min={1}
+                    min={0}
                     max={5}
                     step={1}
                     className="w-full"
                   />
                   <div className="flex justify-between text-xs text-gray-500">
-                    <span>1 - Poor</span>
+                    <span>0</span>
+                    <span>1</span>
                     <span>2</span>
-                    <span>3 - Satisfactory</span>
+                    <span>3</span>
                     <span>4</span>
-                    <span>5 - Outstanding</span>
+                    <span>5</span>
                   </div>
                   <div className="text-center">
                     <Badge
@@ -233,10 +235,12 @@ export default function ScorePage({ params }: { params: Promise<{ id: string }> 
                           ? "bg-green-100 text-green-700"
                           : ratings[criterion.name] >= 3
                           ? "bg-blue-100 text-blue-700"
-                          : "bg-amber-100 text-amber-700"
+                          : ratings[criterion.name] >= 1
+                          ? "bg-amber-100 text-amber-700"
+                          : "bg-gray-100 text-gray-700"
                       }`}
                     >
-                      Rating: {ratings[criterion.name]} - {ratingLabels[ratings[criterion.name]]}
+                      Rating: {ratings[criterion.name] ?? 0} - {ratingLabels[ratings[criterion.name] ?? 0]}
                     </Badge>
                   </div>
                 </div>
