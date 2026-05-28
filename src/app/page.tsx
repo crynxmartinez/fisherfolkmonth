@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Fish, Award, Users, ShieldCheck } from "lucide-react";
+import Image from "next/image";
 
 export default function Home() {
   const [judgeCode, setJudgeCode] = useState("");
@@ -46,19 +47,32 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
+        {/* Header with Logos */}
         <div className="text-center mb-12">
-          <div className="flex justify-center mb-4">
-            <div className="bg-blue-600 p-4 rounded-full">
-              <Fish className="w-12 h-12 text-white" />
+          <div className="flex justify-center items-center gap-6 mb-6">
+            <Image
+              src="/barmm-logo.png"
+              alt="BARMM Logo"
+              width={100}
+              height={100}
+              className="object-contain"
+            />
+            <div className="text-center">
+              <h1 className="text-4xl font-bold text-gray-900 mb-2">
+                Farmers & Fisherfolk Month
+              </h1>
+              <h2 className="text-2xl font-semibold text-blue-600">
+                Awards Celebration 2026
+              </h2>
             </div>
+            <Image
+              src="/mafar-logo.webp"
+              alt="MAFAR Logo"
+              width={100}
+              height={100}
+              className="object-contain"
+            />
           </div>
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
-            Farmers & Fisherfolk Month
-          </h1>
-          <h2 className="text-2xl font-semibold text-blue-600 mb-4">
-            Awards Celebration 2026
-          </h2>
           <p className="text-gray-600 max-w-2xl mx-auto">
             Online Judging System for recognizing outstanding contributions in fisheries, 
             aquaculture, and sustainable farming practices.

@@ -15,6 +15,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Fish, Trophy, Users, Download, ArrowLeft } from "lucide-react";
 import Link from "next/link";
+import Image from "next/image";
 
 interface Judge {
   id: string;
@@ -127,17 +128,33 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
       <div className="container mx-auto px-4 py-8">
-        {/* Header */}
+        {/* Header with Logos */}
         <div className="flex justify-between items-start mb-8">
-          <div>
-            <Link href="/" className="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1 mb-2">
-              <ArrowLeft className="w-4 h-4" />
-              Back to Home
-            </Link>
-            <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-            <p className="text-gray-600 mt-1">
-              Fisherfolk Month Awards 2026 - Results Overview
-            </p>
+          <div className="flex items-center gap-4">
+            <Image
+              src="/barmm-logo.png"
+              alt="BARMM Logo"
+              width={60}
+              height={60}
+              className="object-contain"
+            />
+            <div>
+              <Link href="/" className="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1 mb-1">
+                <ArrowLeft className="w-4 h-4" />
+                Back to Home
+              </Link>
+              <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+              <p className="text-gray-600 mt-1">
+                Fisherfolk Month Awards 2026 - Results Overview
+              </p>
+            </div>
+            <Image
+              src="/mafar-logo.webp"
+              alt="MAFAR Logo"
+              width={60}
+              height={60}
+              className="object-contain"
+            />
           </div>
           <Button onClick={exportToCSV} className="gap-2 bg-green-600 hover:bg-green-700">
             <Download className="w-4 h-4" />
