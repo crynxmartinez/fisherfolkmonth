@@ -85,34 +85,34 @@ export default function JudgeDashboard() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
-        <div className="flex justify-between items-start mb-8">
+        <div className="flex flex-col sm:flex-row justify-between items-start gap-4 mb-6 md:mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-gray-900">Judge Dashboard</h1>
-            <p className="text-gray-600 mt-1">
-              Welcome, <span className="font-semibold">{judge?.name}</span> ({judge?.code})
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900">Judge Dashboard</h1>
+            <p className="text-sm md:text-base text-gray-600 mt-1">
+              Welcome, <span className="font-semibold">{judge?.name}</span>
             </p>
           </div>
-          <Button variant="outline" onClick={handleLogout} className="gap-2">
+          <Button variant="outline" onClick={handleLogout} className="gap-2 w-full sm:w-auto">
             <LogOut className="w-4 h-4" />
             Logout
           </Button>
         </div>
 
         {/* Progress Overview */}
-        <Card className="mb-8 border-0 shadow-lg">
-          <CardContent className="p-6">
+        <Card className="mb-6 md:mb-8 border-0 shadow-lg">
+          <CardContent className="p-4 md:p-6">
             <div className="flex items-center justify-between">
               <div>
-                <h3 className="text-lg font-semibold text-gray-900">Overall Progress</h3>
-                <p className="text-gray-600">
-                  You have scored {totalScored} of {totalNominees} nominees
+                <h3 className="text-base md:text-lg font-semibold text-gray-900">Overall Progress</h3>
+                <p className="text-sm md:text-base text-gray-600">
+                  {totalScored} of {totalNominees} scored
                 </p>
               </div>
               <div className="text-right">
-                <div className="text-3xl font-bold text-blue-600">
+                <div className="text-2xl md:text-3xl font-bold text-blue-600">
                   {Math.round((totalScored / totalNominees) * 100)}%
                 </div>
-                <p className="text-sm text-gray-500">Complete</p>
+                <p className="text-xs md:text-sm text-gray-500">Complete</p>
               </div>
             </div>
             <div className="mt-4 h-3 bg-gray-200 rounded-full overflow-hidden">
@@ -125,8 +125,8 @@ export default function JudgeDashboard() {
         </Card>
 
         {/* Categories Grid */}
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">Award Categories</h2>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <h2 className="text-lg md:text-xl font-semibold text-gray-900 mb-3 md:mb-4">Award Categories</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
           {categories.map((category, index) => {
             const Icon = categoryIcons[index + 1] || Award;
             const color = categoryColors[index + 1] || "bg-gray-500";

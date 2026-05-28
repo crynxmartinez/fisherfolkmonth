@@ -47,20 +47,30 @@ export default function Home() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header with Logos */}
-        <div className="text-center mb-12">
-          <div className="flex justify-center items-center gap-6 mb-6">
-            <Image
-              src="/barmm-logo.png"
-              alt="BARMM Logo"
-              width={100}
-              height={100}
-              className="object-contain"
-            />
+        <div className="text-center mb-8 md:mb-12">
+          {/* Mobile: Stack vertically, Desktop: Side by side */}
+          <div className="flex flex-col md:flex-row justify-center items-center gap-4 md:gap-6 mb-4 md:mb-6">
+            <div className="flex items-center gap-4">
+              <Image
+                src="/barmm-logo.png"
+                alt="BARMM Logo"
+                width={100}
+                height={100}
+                className="object-contain w-16 h-16 md:w-24 md:h-24"
+              />
+              <Image
+                src="/mafar-logo.webp"
+                alt="MAFAR Logo"
+                width={100}
+                height={100}
+                className="object-contain w-16 h-16 md:w-24 md:h-24 md:hidden"
+              />
+            </div>
             <div className="text-center">
-              <h1 className="text-4xl font-bold text-gray-900 mb-2">
+              <h1 className="text-2xl md:text-4xl font-bold text-gray-900 mb-1 md:mb-2">
                 Farmers & Fisherfolk Month
               </h1>
-              <h2 className="text-2xl font-semibold text-blue-600">
+              <h2 className="text-lg md:text-2xl font-semibold text-blue-600">
                 Awards Celebration 2026
               </h2>
             </div>
@@ -69,17 +79,17 @@ export default function Home() {
               alt="MAFAR Logo"
               width={100}
               height={100}
-              className="object-contain"
+              className="object-contain w-24 h-24 hidden md:block"
             />
           </div>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-sm md:text-base text-gray-600 max-w-2xl mx-auto px-4">
             Online Judging System for recognizing outstanding contributions in fisheries, 
             aquaculture, and sustainable farming practices.
           </p>
         </div>
 
         {/* Award Categories Preview */}
-        <div className="grid md:grid-cols-5 gap-4 mb-12">
+        <div className="grid grid-cols-3 md:grid-cols-5 gap-3 md:gap-4 mb-8 md:mb-12">
           {[
             { icon: Award, title: "Outstanding Fisherfolk", color: "bg-amber-500" },
             { icon: Fish, title: "Innovative Sea Farmer", color: "bg-blue-500" },
@@ -88,10 +98,10 @@ export default function Home() {
             { icon: Award, title: "Youth Achiever", color: "bg-purple-500" },
           ].map((cat, i) => (
             <div key={i} className="text-center">
-              <div className={`${cat.color} p-3 rounded-full w-fit mx-auto mb-2`}>
-                <cat.icon className="w-6 h-6 text-white" />
+              <div className={`${cat.color} p-2 md:p-3 rounded-full w-fit mx-auto mb-1 md:mb-2`}>
+                <cat.icon className="w-4 h-4 md:w-6 md:h-6 text-white" />
               </div>
-              <p className="text-sm font-medium text-gray-700">{cat.title}</p>
+              <p className="text-xs md:text-sm font-medium text-gray-700">{cat.title}</p>
             </div>
           ))}
         </div>

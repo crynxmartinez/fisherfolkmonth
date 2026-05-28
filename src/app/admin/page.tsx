@@ -129,23 +129,23 @@ export default function AdminDashboard() {
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
       <div className="container mx-auto px-4 py-8">
         {/* Header with Logos */}
-        <div className="flex justify-between items-start mb-8">
-          <div className="flex items-center gap-4">
+        <div className="flex flex-col md:flex-row justify-between items-start gap-4 mb-6 md:mb-8">
+          <div className="flex items-center gap-3 md:gap-4">
             <Image
               src="/barmm-logo.png"
               alt="BARMM Logo"
               width={60}
               height={60}
-              className="object-contain"
+              className="object-contain w-10 h-10 md:w-14 md:h-14"
             />
             <div>
-              <Link href="/" className="text-blue-600 hover:text-blue-700 text-sm flex items-center gap-1 mb-1">
-                <ArrowLeft className="w-4 h-4" />
+              <Link href="/" className="text-blue-600 hover:text-blue-700 text-xs md:text-sm flex items-center gap-1 mb-1">
+                <ArrowLeft className="w-3 h-3 md:w-4 md:h-4" />
                 Back to Home
               </Link>
-              <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
-              <p className="text-gray-600 mt-1">
-                Fisherfolk Month Awards 2026 - Results Overview
+              <h1 className="text-xl md:text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+              <p className="text-xs md:text-base text-gray-600 mt-1">
+                Fisherfolk Month Awards 2026
               </p>
             </div>
             <Image
@@ -153,17 +153,17 @@ export default function AdminDashboard() {
               alt="MAFAR Logo"
               width={60}
               height={60}
-              className="object-contain"
+              className="object-contain w-10 h-10 md:w-14 md:h-14"
             />
           </div>
-          <Button onClick={exportToCSV} className="gap-2 bg-green-600 hover:bg-green-700">
+          <Button onClick={exportToCSV} className="gap-2 bg-green-600 hover:bg-green-700 w-full md:w-auto">
             <Download className="w-4 h-4" />
             Export CSV
           </Button>
         </div>
 
         {/* Stats Overview */}
-        <div className="grid md:grid-cols-4 gap-4 mb-8">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
           <Card className="border-0 shadow-lg">
             <CardContent className="p-6">
               <div className="flex items-center gap-4">
