@@ -222,16 +222,16 @@ export default function AdminDashboard() {
 
         {/* Results by Category */}
         <Card className="border-0 shadow-lg">
-          <CardHeader>
-            <CardTitle>Results by Category</CardTitle>
-            <CardDescription>Rankings based on average judge scores</CardDescription>
+          <CardHeader className="p-4 md:p-6">
+            <CardTitle className="text-lg md:text-xl">Results by Category</CardTitle>
+            <CardDescription className="text-xs md:text-sm">Rankings based on average judge scores</CardDescription>
           </CardHeader>
-          <CardContent>
+          <CardContent className="p-2 md:p-6">
             <Tabs defaultValue={categories[0]?.id}>
-              <TabsList className="mb-4 flex-wrap h-auto gap-2">
+              <TabsList className="mb-4 flex-wrap h-auto gap-1 md:gap-2 w-full justify-start">
                 {categories.map((category) => (
-                  <TabsTrigger key={category.id} value={category.id} className="text-xs">
-                    {category.name.replace("Most ", "").replace("Outstanding ", "")}
+                  <TabsTrigger key={category.id} value={category.id} className="text-[10px] md:text-xs px-2 py-1">
+                    {category.name.replace("Most ", "").replace("Outstanding ", "").replace(" in Fisheries & Aquaculture", "")}
                   </TabsTrigger>
                 ))}
               </TabsList>
@@ -241,73 +241,116 @@ export default function AdminDashboard() {
 
                 return (
                   <TabsContent key={category.id} value={category.id}>
-                    <Table>
-                      <TableHeader>
-                        <TableRow>
-                          <TableHead className="w-16">Rank</TableHead>
-                          <TableHead>Nominee</TableHead>
-                          <TableHead>Location</TableHead>
-                          {judges.map((judge, idx) => (
-                            <TableHead key={judge.id} className="text-center w-24">
-                              <div className="text-xs">
-                                <div className="font-semibold">Judge {idx + 1}</div>
-                                {judge.name && (
-                                  <div className="text-gray-500 font-normal truncate max-w-20">
-                                    {judge.name}
-                                  </div>
-                                )}
-                              </div>
-                            </TableHead>
-                          ))}
-                          <TableHead className="text-center">Average</TableHead>
-                        </TableRow>
-                      </TableHeader>
-                      <TableBody>
-                        {rankedNominees.map((nominee, index) => (
-                          <TableRow key={nominee.id}>
-                            <TableCell>
+                    {/* Mobile Card View */}
+                    <div className="md:hidden space-y-3">
+                      {rankedNominees.map((nominee, index) => (
+                        <div key={nominee.id} className="bg-gray-50 rounded-lg p-3">
+                          <div className="flex items-center justify-between mb-2">
+                            <div className="flex items-center gap-2">
                               {index === 0 && nominee.stats.count > 0 ? (
-                                <Badge className="bg-amber-500">🥇 1st</Badge>
+                                <Badge className="bg-amber-500 text-xs">🥇 1st</Badge>
                               ) : index === 1 && nominee.stats.count > 0 ? (
-                                <Badge className="bg-gray-400">🥈 2nd</Badge>
+                                <Badge className="bg-gray-400 text-xs">🥈 2nd</Badge>
                               ) : index === 2 && nominee.stats.count > 0 ? (
-                                <Badge className="bg-amber-700">🥉 3rd</Badge>
+                                <Badge className="bg-amber-700 text-xs">🥉 3rd</Badge>
                               ) : (
-                                <span className="text-gray-500">{index + 1}</span>
+                                <span className="text-gray-500 text-sm font-medium">#{index + 1}</span>
                               )}
-                            </TableCell>
-                            <TableCell className="font-medium">{nominee.name}</TableCell>
-                            <TableCell className="text-gray-600">{nominee.location}</TableCell>
-                            {judges.map((judge) => {
-                              const score = nominee.scores.find((s) => s.judgeId === judge.id);
-                              return (
-                                <TableCell key={judge.id} className="text-center">
-                                  {score ? (
-                                    <span className="font-medium">{score.totalScore.toFixed(1)}</span>
-                                  ) : (
-                                    <span className="text-gray-300">-</span>
+                              <span className="font-semibold text-sm">{nominee.name}</span>
+                            </div>
+                            <Badge
+                              className={nominee.stats.count > 0 ? "bg-blue-600" : "bg-gray-300"}
+                            >
+                              {nominee.stats.count > 0 ? nominee.stats.average.toFixed(1) : "N/A"}
+                            </Badge>
+                          </div>
+                          <p className="text-xs text-gray-500 mb-2">{nominee.location}</p>
+                          {judges.length > 0 && (
+                            <div className="flex flex-wrap gap-1">
+                              {judges.map((judge, idx) => {
+                                const score = nominee.scores.find((s) => s.judgeId === judge.id);
+                                return (
+                                  <span key={judge.id} className="text-xs bg-white px-2 py-1 rounded">
+                                    J{idx + 1}: {score ? score.totalScore.toFixed(0) : "-"}
+                                  </span>
+                                );
+                              })}
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Desktop Table View */}
+                    <div className="hidden md:block overflow-x-auto">
+                      <Table>
+                        <TableHeader>
+                          <TableRow>
+                            <TableHead className="w-16">Rank</TableHead>
+                            <TableHead>Nominee</TableHead>
+                            <TableHead>Location</TableHead>
+                            {judges.map((judge, idx) => (
+                              <TableHead key={judge.id} className="text-center w-24">
+                                <div className="text-xs">
+                                  <div className="font-semibold">Judge {idx + 1}</div>
+                                  {judge.name && (
+                                    <div className="text-gray-500 font-normal truncate max-w-20">
+                                      {judge.name}
+                                    </div>
                                   )}
-                                </TableCell>
-                              );
-                            })}
-                            <TableCell className="text-center">
-                              <Badge
-                                variant={nominee.stats.count > 0 ? "default" : "secondary"}
-                                className={
-                                  nominee.stats.count > 0
-                                    ? "bg-blue-600"
-                                    : ""
-                                }
-                              >
-                                {nominee.stats.count > 0
-                                  ? nominee.stats.average.toFixed(2)
-                                  : "N/A"}
-                              </Badge>
-                            </TableCell>
+                                </div>
+                              </TableHead>
+                            ))}
+                            <TableHead className="text-center">Average</TableHead>
                           </TableRow>
-                        ))}
-                      </TableBody>
-                    </Table>
+                        </TableHeader>
+                        <TableBody>
+                          {rankedNominees.map((nominee, index) => (
+                            <TableRow key={nominee.id}>
+                              <TableCell>
+                                {index === 0 && nominee.stats.count > 0 ? (
+                                  <Badge className="bg-amber-500">🥇 1st</Badge>
+                                ) : index === 1 && nominee.stats.count > 0 ? (
+                                  <Badge className="bg-gray-400">🥈 2nd</Badge>
+                                ) : index === 2 && nominee.stats.count > 0 ? (
+                                  <Badge className="bg-amber-700">🥉 3rd</Badge>
+                                ) : (
+                                  <span className="text-gray-500">{index + 1}</span>
+                                )}
+                              </TableCell>
+                              <TableCell className="font-medium">{nominee.name}</TableCell>
+                              <TableCell className="text-gray-600">{nominee.location}</TableCell>
+                              {judges.map((judge) => {
+                                const score = nominee.scores.find((s) => s.judgeId === judge.id);
+                                return (
+                                  <TableCell key={judge.id} className="text-center">
+                                    {score ? (
+                                      <span className="font-medium">{score.totalScore.toFixed(1)}</span>
+                                    ) : (
+                                      <span className="text-gray-300">-</span>
+                                    )}
+                                  </TableCell>
+                                );
+                              })}
+                              <TableCell className="text-center">
+                                <Badge
+                                  variant={nominee.stats.count > 0 ? "default" : "secondary"}
+                                  className={
+                                    nominee.stats.count > 0
+                                      ? "bg-blue-600"
+                                      : ""
+                                  }
+                                >
+                                  {nominee.stats.count > 0
+                                    ? nominee.stats.average.toFixed(2)
+                                    : "N/A"}
+                                </Badge>
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </TableBody>
+                      </Table>
+                    </div>
                   </TabsContent>
                 );
               })}
