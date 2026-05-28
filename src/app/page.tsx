@@ -10,7 +10,6 @@ import { Fish, Award, Users, ShieldCheck } from "lucide-react";
 import Image from "next/image";
 
 export default function Home() {
-  const [judgeCode, setJudgeCode] = useState("");
   const [judgeName, setJudgeName] = useState("");
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
@@ -25,13 +24,13 @@ export default function Home() {
       const res = await fetch("/api/judge/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ code: judgeCode.toUpperCase(), name: judgeName }),
+        body: JSON.stringify({ name: judgeName.trim() }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        setError(data.error || "Invalid judge code");
+        setError(data.error || "Something went wrong");
         setLoading(false);
         return;
       }
@@ -103,22 +102,11 @@ export default function Home() {
             <CardHeader className="text-center bg-blue-600 text-white rounded-t-lg">
               <CardTitle className="text-xl">Judge Portal</CardTitle>
               <CardDescription className="text-blue-100">
-                Enter your credentials to access the scoring system
+                Enter your name to access the scoring system
               </CardDescription>
             </CardHeader>
             <CardContent className="p-6">
               <form onSubmit={handleJudgeLogin} className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="code">Judge Code</Label>
-                  <Input
-                    id="code"
-                    placeholder="e.g., JUDGE-001"
-                    value={judgeCode}
-                    onChange={(e) => setJudgeCode(e.target.value)}
-                    required
-                    className="uppercase"
-                  />
-                </div>
                 <div className="space-y-2">
                   <Label htmlFor="name">Your Full Name</Label>
                   <Input
@@ -137,7 +125,7 @@ export default function Home() {
                   className="w-full bg-blue-600 hover:bg-blue-700"
                   disabled={loading}
                 >
-                  {loading ? "Verifying..." : "Enter Judging Portal"}
+                  {loading ? "Entering..." : "Start Judging"}
                 </Button>
               </form>
 

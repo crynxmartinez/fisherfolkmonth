@@ -3,31 +3,30 @@ import { prisma } from "@/lib/prisma";
 
 export async function POST(request: NextRequest) {
   try {
-    const { code, name } = await request.json();
+    const { name } = await request.json();
 
-    if (!code || !name) {
+    if (!name || name.trim().length < 2) {
       return NextResponse.json(
-        { error: "Judge code and name are required" },
+        { error: "Please enter your full name" },
         { status: 400 }
       );
     }
 
-    const judge = await prisma.judge.findUnique({
-      where: { code: code.toUpperCase() },
+    const trimmedName = name.trim();
+
+    // Find existing judge by name or create new one
+    let judge = await prisma.judge.findFirst({
+      where: { name: trimmedName },
     });
 
     if (!judge) {
-      return NextResponse.json(
-        { error: "Invalid judge code" },
-        { status: 401 }
-      );
-    }
-
-    // Update judge name if not set or different
-    if (!judge.name || judge.name !== name) {
-      await prisma.judge.update({
-        where: { id: judge.id },
-        data: { name },
+      // Create new judge with auto-generated code
+      const count = await prisma.judge.count();
+      judge = await prisma.judge.create({
+        data: {
+          code: `JUDGE-${String(count + 1).padStart(3, "0")}`,
+          name: trimmedName,
+        },
       });
     }
 
@@ -35,7 +34,7 @@ export async function POST(request: NextRequest) {
       judge: {
         id: judge.id,
         code: judge.code,
-        name: name,
+        name: judge.name,
       },
     });
   } catch (error) {
