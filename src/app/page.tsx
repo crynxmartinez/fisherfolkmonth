@@ -1,65 +1,149 @@
-import Image from "next/image";
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Label } from "@/components/ui/label";
+import { Fish, Award, Users, ShieldCheck } from "lucide-react";
 
 export default function Home() {
+  const [judgeCode, setJudgeCode] = useState("");
+  const [judgeName, setJudgeName] = useState("");
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const router = useRouter();
+
+  const handleJudgeLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+
+    try {
+      const res = await fetch("/api/judge/login", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ code: judgeCode.toUpperCase(), name: judgeName }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        setError(data.error || "Invalid judge code");
+        setLoading(false);
+        return;
+      }
+
+      localStorage.setItem("judgeSession", JSON.stringify(data.judge));
+      router.push("/judge/dashboard");
+    } catch {
+      setError("Something went wrong. Please try again.");
+      setLoading(false);
+    }
+  };
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-cyan-50 to-teal-50">
+      <div className="container mx-auto px-4 py-8">
+        {/* Header */}
+        <div className="text-center mb-12">
+          <div className="flex justify-center mb-4">
+            <div className="bg-blue-600 p-4 rounded-full">
+              <Fish className="w-12 h-12 text-white" />
+            </div>
+          </div>
+          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+            Farmers & Fisherfolk Month
           </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
+          <h2 className="text-2xl font-semibold text-blue-600 mb-4">
+            Awards Celebration 2026
+          </h2>
+          <p className="text-gray-600 max-w-2xl mx-auto">
+            Online Judging System for recognizing outstanding contributions in fisheries, 
+            aquaculture, and sustainable farming practices.
           </p>
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+
+        {/* Award Categories Preview */}
+        <div className="grid md:grid-cols-5 gap-4 mb-12">
+          {[
+            { icon: Award, title: "Outstanding Fisherfolk", color: "bg-amber-500" },
+            { icon: Fish, title: "Innovative Sea Farmer", color: "bg-blue-500" },
+            { icon: ShieldCheck, title: "Sustainable Champion", color: "bg-green-500" },
+            { icon: Users, title: "Women in Fisheries", color: "bg-pink-500" },
+            { icon: Award, title: "Youth Achiever", color: "bg-purple-500" },
+          ].map((cat, i) => (
+            <div key={i} className="text-center">
+              <div className={`${cat.color} p-3 rounded-full w-fit mx-auto mb-2`}>
+                <cat.icon className="w-6 h-6 text-white" />
+              </div>
+              <p className="text-sm font-medium text-gray-700">{cat.title}</p>
+            </div>
+          ))}
         </div>
-      </main>
+
+        {/* Login Card */}
+        <div className="max-w-md mx-auto">
+          <Card className="shadow-xl border-0">
+            <CardHeader className="text-center bg-blue-600 text-white rounded-t-lg">
+              <CardTitle className="text-xl">Judge Portal</CardTitle>
+              <CardDescription className="text-blue-100">
+                Enter your credentials to access the scoring system
+              </CardDescription>
+            </CardHeader>
+            <CardContent className="p-6">
+              <form onSubmit={handleJudgeLogin} className="space-y-4">
+                <div className="space-y-2">
+                  <Label htmlFor="code">Judge Code</Label>
+                  <Input
+                    id="code"
+                    placeholder="e.g., JUDGE-001"
+                    value={judgeCode}
+                    onChange={(e) => setJudgeCode(e.target.value)}
+                    required
+                    className="uppercase"
+                  />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="name">Your Full Name</Label>
+                  <Input
+                    id="name"
+                    placeholder="Enter your full name"
+                    value={judgeName}
+                    onChange={(e) => setJudgeName(e.target.value)}
+                    required
+                  />
+                </div>
+                {error && (
+                  <p className="text-red-500 text-sm text-center">{error}</p>
+                )}
+                <Button 
+                  type="submit" 
+                  className="w-full bg-blue-600 hover:bg-blue-700"
+                  disabled={loading}
+                >
+                  {loading ? "Verifying..." : "Enter Judging Portal"}
+                </Button>
+              </form>
+
+              <div className="mt-6 pt-6 border-t text-center">
+                <a 
+                  href="/admin" 
+                  className="text-sm text-gray-500 hover:text-blue-600 transition-colors"
+                >
+                  Admin Dashboard →
+                </a>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Footer */}
+        <div className="text-center mt-12 text-gray-500 text-sm">
+          <p>BARMM Fisherfolk Month Celebration 2026</p>
+        </div>
+      </div>
     </div>
   );
 }

@@ -1,0 +1,49 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Judge {
+  id        String   @id @default(cuid())
+  code      String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  scores    Score[]
+}
+
+model Category {
+  id          String    @id @default(cuid())
+  name        String
+  description String?
+  criteria    Json
+  order       Int       @default(0)
+  nominees    Nominee[]
+}
+
+model Nominee {
+  id           String   @id @default(cuid())
+  name         String
+  location     String
+  organization String?
+  achievements String?
+  photoUrl     String?
+  categoryId   String
+  category     Category @relation(fields: [categoryId], references: [id])
+  scores       Score[]
+}
+
+model Score {
+  id         String   @id @default(cuid())
+  judgeId    String
+  nomineeId  String
+  ratings    Json
+  totalScore Float
+  createdAt  DateTime @default(now())
+  judge      Judge    @relation(fields: [judgeId], references: [id])
+  nominee    Nominee  @relation(fields: [nomineeId], references: [id])
+
+  @@unique([judgeId, nomineeId])
+}
