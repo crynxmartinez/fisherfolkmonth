@@ -247,9 +247,16 @@ export default function AdminDashboard() {
                           <TableHead className="w-16">Rank</TableHead>
                           <TableHead>Nominee</TableHead>
                           <TableHead>Location</TableHead>
-                          {judges.map((judge) => (
-                            <TableHead key={judge.id} className="text-center w-20">
-                              {judge.code.replace("JUDGE-", "J")}
+                          {judges.map((judge, idx) => (
+                            <TableHead key={judge.id} className="text-center w-24">
+                              <div className="text-xs">
+                                <div className="font-semibold">Judge {idx + 1}</div>
+                                {judge.name && (
+                                  <div className="text-gray-500 font-normal truncate max-w-20">
+                                    {judge.name}
+                                  </div>
+                                )}
+                              </div>
                             </TableHead>
                           ))}
                           <TableHead className="text-center">Average</TableHead>
