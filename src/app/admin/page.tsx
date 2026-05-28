@@ -163,57 +163,57 @@ export default function AdminDashboard() {
         </div>
 
         {/* Stats Overview */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 mb-6 md:mb-8">
+        <div className="grid grid-cols-2 gap-2 mb-4 md:grid-cols-4 md:gap-4 md:mb-8">
           <Card className="border-0 shadow-lg">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="bg-blue-100 p-3 rounded-xl">
-                  <Trophy className="w-6 h-6 text-blue-600" />
+            <CardContent className="p-3 md:p-6">
+              <div className="flex items-center gap-2 md:gap-4">
+                <div className="bg-blue-100 p-2 md:p-3 rounded-xl">
+                  <Trophy className="w-4 h-4 md:w-6 md:h-6 text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-gray-900">{categories.length}</p>
-                  <p className="text-sm text-gray-600">Categories</p>
+                  <p className="text-lg md:text-2xl font-bold text-gray-900">{categories.length}</p>
+                  <p className="text-xs md:text-sm text-gray-600">Categories</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           <Card className="border-0 shadow-lg">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="bg-amber-100 p-3 rounded-xl">
-                  <Users className="w-6 h-6 text-amber-600" />
+            <CardContent className="p-3 md:p-6">
+              <div className="flex items-center gap-2 md:gap-4">
+                <div className="bg-amber-100 p-2 md:p-3 rounded-xl">
+                  <Users className="w-4 h-4 md:w-6 md:h-6 text-amber-600" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-gray-900">{totalNominees}</p>
-                  <p className="text-sm text-gray-600">Nominees</p>
+                  <p className="text-lg md:text-2xl font-bold text-gray-900">{totalNominees}</p>
+                  <p className="text-xs md:text-sm text-gray-600">Nominees</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           <Card className="border-0 shadow-lg">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="bg-green-100 p-3 rounded-xl">
-                  <Users className="w-6 h-6 text-green-600" />
+            <CardContent className="p-3 md:p-6">
+              <div className="flex items-center gap-2 md:gap-4">
+                <div className="bg-green-100 p-2 md:p-3 rounded-xl">
+                  <Users className="w-4 h-4 md:w-6 md:h-6 text-green-600" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-gray-900">{judges.length}</p>
-                  <p className="text-sm text-gray-600">Judges</p>
+                  <p className="text-lg md:text-2xl font-bold text-gray-900">{judges.length}</p>
+                  <p className="text-xs md:text-sm text-gray-600">Judges</p>
                 </div>
               </div>
             </CardContent>
           </Card>
           <Card className="border-0 shadow-lg">
-            <CardContent className="p-6">
-              <div className="flex items-center gap-4">
-                <div className="bg-purple-100 p-3 rounded-xl">
-                  <Fish className="w-6 h-6 text-purple-600" />
+            <CardContent className="p-3 md:p-6">
+              <div className="flex items-center gap-2 md:gap-4">
+                <div className="bg-purple-100 p-2 md:p-3 rounded-xl">
+                  <Fish className="w-4 h-4 md:w-6 md:h-6 text-purple-600" />
                 </div>
                 <div>
-                  <p className="text-2xl font-bold text-gray-900">
-                    {totalScores} / {expectedScores}
+                  <p className="text-lg md:text-2xl font-bold text-gray-900">
+                    {totalScores}/{expectedScores}
                   </p>
-                  <p className="text-sm text-gray-600">Scores Submitted</p>
+                  <p className="text-xs md:text-sm text-gray-600">Scores</p>
                 </div>
               </div>
             </CardContent>
@@ -242,37 +242,41 @@ export default function AdminDashboard() {
                 return (
                   <TabsContent key={category.id} value={category.id}>
                     {/* Mobile Card View */}
-                    <div className="md:hidden space-y-3">
+                    <div className="block md:hidden space-y-3">
                       {rankedNominees.map((nominee, index) => (
-                        <div key={nominee.id} className="bg-gray-50 rounded-lg p-3">
-                          <div className="flex items-center justify-between mb-2">
-                            <div className="flex items-center gap-2">
-                              {index === 0 && nominee.stats.count > 0 ? (
-                                <Badge className="bg-amber-500 text-xs">🥇 1st</Badge>
-                              ) : index === 1 && nominee.stats.count > 0 ? (
-                                <Badge className="bg-gray-400 text-xs">🥈 2nd</Badge>
-                              ) : index === 2 && nominee.stats.count > 0 ? (
-                                <Badge className="bg-amber-700 text-xs">🥉 3rd</Badge>
-                              ) : (
-                                <span className="text-gray-500 text-sm font-medium">#{index + 1}</span>
-                              )}
-                              <span className="font-semibold text-sm">{nominee.name}</span>
+                        <div key={nominee.id} className="bg-gray-50 rounded-lg p-4 border">
+                          <div className="flex items-start justify-between mb-2">
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-1">
+                                {index === 0 && nominee.stats.count > 0 ? (
+                                  <Badge className="bg-amber-500 text-xs">🥇</Badge>
+                                ) : index === 1 && nominee.stats.count > 0 ? (
+                                  <Badge className="bg-gray-400 text-xs">🥈</Badge>
+                                ) : index === 2 && nominee.stats.count > 0 ? (
+                                  <Badge className="bg-amber-700 text-xs">🥉</Badge>
+                                ) : (
+                                  <Badge variant="outline" className="text-xs">#{index + 1}</Badge>
+                                )}
+                              </div>
+                              <p className="font-semibold text-base">{nominee.name}</p>
+                              <p className="text-xs text-gray-500">{nominee.location}</p>
                             </div>
-                            <Badge
-                              className={nominee.stats.count > 0 ? "bg-blue-600" : "bg-gray-300"}
-                            >
-                              {nominee.stats.count > 0 ? nominee.stats.average.toFixed(1) : "N/A"}
-                            </Badge>
+                            <div className="text-right">
+                              <p className="text-xs text-gray-500">Average</p>
+                              <p className="text-xl font-bold text-blue-600">
+                                {nominee.stats.count > 0 ? nominee.stats.average.toFixed(1) : "-"}
+                              </p>
+                            </div>
                           </div>
-                          <p className="text-xs text-gray-500 mb-2">{nominee.location}</p>
                           {judges.length > 0 && (
-                            <div className="flex flex-wrap gap-1">
+                            <div className="flex flex-wrap gap-2 mt-3 pt-3 border-t">
                               {judges.map((judge, idx) => {
                                 const score = nominee.scores.find((s) => s.judgeId === judge.id);
                                 return (
-                                  <span key={judge.id} className="text-xs bg-white px-2 py-1 rounded">
-                                    J{idx + 1}: {score ? score.totalScore.toFixed(0) : "-"}
-                                  </span>
+                                  <div key={judge.id} className="text-center bg-white px-3 py-1 rounded border">
+                                    <p className="text-[10px] text-gray-500">J{idx + 1}</p>
+                                    <p className="text-sm font-semibold">{score ? score.totalScore.toFixed(0) : "-"}</p>
+                                  </div>
                                 );
                               })}
                             </div>
