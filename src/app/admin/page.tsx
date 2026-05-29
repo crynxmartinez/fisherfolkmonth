@@ -156,10 +156,18 @@ export default function AdminDashboard() {
               className="object-contain w-10 h-10 md:w-14 md:h-14"
             />
           </div>
-          <Button onClick={exportToCSV} className="gap-2 bg-green-600 hover:bg-green-700 w-full md:w-auto">
-            <Download className="w-4 h-4" />
-            Export CSV
-          </Button>
+          <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+            <Link href="/results">
+              <Button className="gap-2 bg-amber-500 hover:bg-amber-600 w-full">
+                <Trophy className="w-4 h-4" />
+                Announce Winners
+              </Button>
+            </Link>
+            <Button onClick={exportToCSV} className="gap-2 bg-green-600 hover:bg-green-700 w-full">
+              <Download className="w-4 h-4" />
+              Export CSV
+            </Button>
+          </div>
         </div>
 
         {/* Stats Overview */}
